@@ -40,7 +40,6 @@ void main_task(intptr_t unused) {
     ev3api::Clock clock;
     clock.reset();
     HsvConverter hsvConverter;
-    char str[64];
     rgb_raw_t rgb;
     hsv_t hsv[3] = {0, 0, 0};
 
@@ -48,30 +47,23 @@ void main_task(intptr_t unused) {
     while(true){
         if (1000 * RELOAD_TIME * 0.5 < clock.now() && !doShowBrightness) {
             // 反射光を取得して表示
-            sprintf(str, "%d", colorSensor.getBrightness());
-            msg_f(str, brightnessLine + 1);
+            msg_f(colorSensor.getBrightness(), brightnessLine + 1);
             doShowBrightness = true;
         }
 
         if (1000 * RELOAD_TIME < clock.now() && doShowBrightness) {
             // RGBを取得して表示
             colorSensor.getRawColor(rgb);
-            sprintf(str, "%d", rgb.r);
-            msg_f(str, rgbLine + 1);
-            sprintf(str, "%d", rgb.g);
-            msg_f(str, rgbLine + 2);
-            sprintf(str, "%d", rgb.b);
-            msg_f(str, rgbLine + 3);
+            msg_f(rgb.r, rgbLine + 1);
+            msg_f(rgb.g, rgbLine + 2);
+            msg_f(rgb.b, rgbLine + 3);
 
             // HSVを取得して表示
             hsvConverter.convertToHsv(rgb.r, rgb.g, rgb.b);
             hsvConverter.getHsv(hsv[0], hsv[1], hsv[2]);
-            sprintf(str, "%f", hsv[0]);
-            msg_f(str, hsvLine + 1);
-            sprintf(str, "%f", hsv[1]);
-            msg_f(str, hsvLine + 2);
-            sprintf(str, "%f", hsv[2]);
-            msg_f(str, hsvLine + 3);
+            msg_f(hsv[0], hsvLine + 1);
+            msg_f(hsv[1], hsvLine + 2);
+            msg_f(hsv[2], hsvLine + 3);
 
             // 色判定
             msg_f(numbetToColor(colorSensor.getColorNumber()), coloeNameLine + 1);

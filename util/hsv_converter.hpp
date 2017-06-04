@@ -24,7 +24,7 @@ private:
     hsv_t hue_;
     hsv_t saturation_;
     hsv_t lightness_;  // 本当はvalueにしたいが他と被りそうなので
-    int searchMaxAndMin(rgb_t red, rgb_t green, rgb_t blue, rgb_t* max, rgb_t* min) const;
+    int searchMaxAndMin(rgb_t red, rgb_t green, rgb_t blue, rgb_t& max, rgb_t& min) const;
 };
 
 #endif

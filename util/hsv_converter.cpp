@@ -32,21 +32,21 @@ HsvConverter::HsvConverter(rgb_t red, rgb_t green, rgb_t blue) {
  * @rapam red   RGBの赤
  * @rapam green RGBの緑
  * @rapam blue  RGBの青
- * @rapam max   RGBの各値の中から最大値を格納する変数のポインタ
- * @rapam min   RGBの各値の中から最小値を格納する変数のポインタ
+ * @rapam max   RGBの各値の中から最大値を格納する変数
+ * @rapam min   RGBの各値の中から最小値を格納する変数
  * @return      最大値だった色 0:赤 1:緑 2:青
  */
-int HsvConverter::searchMaxAndMin(rgb_t red, rgb_t green, rgb_t blue, rgb_t* max, rgb_t* min) const {
+int HsvConverter::searchMaxAndMin(rgb_t red, rgb_t green, rgb_t blue, rgb_t& max, rgb_t& min) const {
     int maxIndex = 0;
     rgb_t rgb[3] = {red, green, blue};
-    *max = rgb[0];
-    *min = rgb[0];
+    max = rgb[0];
+    min = rgb[0];
     for (int i = 1; i < 3; i++) {
-        if (*max < rgb[i % 3]) {
-            *max = rgb[i % 3];
+        if (max < rgb[i % 3]) {
+            max = rgb[i % 3];
             maxIndex = i;
-        } else if (rgb[i % 3] < *min) {
-            *min = rgb[i % 3];
+        } else if (rgb[i % 3] < min) {
+            min = rgb[i % 3];
         }
     }
     return maxIndex;
@@ -62,7 +62,7 @@ int HsvConverter::searchMaxAndMin(rgb_t red, rgb_t green, rgb_t blue, rgb_t* max
 void HsvConverter::convertToHsv(rgb_t red, rgb_t green, rgb_t blue) {
     rgb_t max;
     rgb_t min;
-    int maxIndex = searchMaxAndMin(red, green, blue, &max, &min);
+    int maxIndex = searchMaxAndMin(red, green, blue, max, min);
     hsv_t rgb[3] = {(hsv_t)red, (hsv_t)green, (hsv_t)blue};
     hue_ = (red == green && green == blue)
             ? 0
