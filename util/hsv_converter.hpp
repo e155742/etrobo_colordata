@@ -7,7 +7,7 @@
 
 // 下のエイリアスは少なくともどちらか一方を浮動小数点数型にすること
 // 両方整数型だと色相が計算できない
-using rgb_t = int;   // RGB値で使用する型
+using rgb_t = float; // RGB値で使用する型
 using hsv_t = float; // HSV値で使用する型
 
 class HsvConverter{

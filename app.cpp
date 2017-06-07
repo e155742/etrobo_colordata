@@ -43,6 +43,11 @@ void main_task(intptr_t unused) {
     rgb_raw_t rgb;
     hsv_t hsv[3] = {0, 0, 0};
 
+    // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Spec
+    const float redCorrection   = 255.0 / 329.0;
+    const float greenCorrection = 255.0 / 389.0;
+    const float blueCorrection  = 255.0 / 238.0;
+
     bool doShowBrightness = false;
     while(true){
         if (1000 * RELOAD_TIME * 0.5 < clock.now() && !doShowBrightness) {
@@ -54,12 +59,12 @@ void main_task(intptr_t unused) {
         if (1000 * RELOAD_TIME < clock.now() && doShowBrightness) {
             // RGBを取得して表示
             colorSensor.getRawColor(rgb);
-            msg_f(rgb.r, rgbLine + 1);
-            msg_f(rgb.g, rgbLine + 2);
-            msg_f(rgb.b, rgbLine + 3);
+            msg_f(rgb.r * redCorrection, rgbLine + 1);
+            msg_f(rgb.g * greenCorrection, rgbLine + 2);
+            msg_f(rgb.b * blueCorrection, rgbLine + 3);
 
             // HSVを取得して表示
-            hsvConverter.convertToHsv(rgb.r, rgb.g, rgb.b);
+            hsvConverter.convertToHsv(rgb.r * redCorrection, rgb.g * greenCorrection, rgb.b * blueCorrection);
             hsvConverter.getHsv(hsv[0], hsv[1], hsv[2]);
             msg_f(hsv[0], hsvLine + 1);
             msg_f(hsv[1], hsvLine + 2);
