@@ -47,6 +47,9 @@ void main_task(intptr_t unused) {
     const float redCorrection   = 255.0 / 329.0;
     const float greenCorrection = 255.0 / 389.0;
     const float blueCorrection  = 255.0 / 238.0;
+    float red   = 0.0;
+    float green = 0.0;
+    float blue  = 0.0;
 
     bool doShowBrightness = false;
     while(true){
@@ -59,12 +62,15 @@ void main_task(intptr_t unused) {
         if (1000 * RELOAD_TIME < clock.now() && doShowBrightness) {
             // RGBを取得して表示
             colorSensor.getRawColor(rgb);
-            msg_f(rgb.r * redCorrection, rgbLine + 1);
-            msg_f(rgb.g * greenCorrection, rgbLine + 2);
-            msg_f(rgb.b * blueCorrection, rgbLine + 3);
+            red   = rgb.r * redCorrection   < 255.0 ? rgb.r * redCorrection   : 255.0;
+            green = rgb.g * greenCorrection < 255.0 ? rgb.g * greenCorrection : 255.0;
+            blue  = rgb.b * blueCorrection  < 255.0 ? rgb.b * blueCorrection  : 255.0;
+            msg_f(red, rgbLine + 1);
+            msg_f(green, rgbLine + 2);
+            msg_f(blue, rgbLine + 3);
 
             // HSVを取得して表示
-            hsvConverter.convertToHsv(rgb.r * redCorrection, rgb.g * greenCorrection, rgb.b * blueCorrection);
+            hsvConverter.convertToHsv(red, green, blue);
             hsvConverter.getHsv(hsv[0], hsv[1], hsv[2]);
             msg_f(hsv[0], hsvLine + 1);
             msg_f(hsv[1], hsvLine + 2);
