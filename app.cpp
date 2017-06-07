@@ -7,16 +7,16 @@
 
 constexpr float RELOAD_TIME = 0.5; // 画面の更新間隔(秒)
 
-char* numbetToColor(colorid_t colorNum) {
-    char* colorStr[8] = {
-        (char*)"NONE",
-        (char*)"BLACK",
-        (char*)"BLUE",
-        (char*)"GREEN",
-        (char*)"YELLOW",
-        (char*)"RED",
-        (char*)"WHITE",
-        (char*)"BROWN"
+const char* numbetToColor(colorid_t colorNum) {
+    const char* colorStr[8] = {
+        "NONE",
+        "BLACK",
+        "BLUE",
+        "GREEN",
+        "YELLOW",
+        "RED",
+        "WHITE",
+        "BROWN"
     };
 
     return colorStr[colorNum];
