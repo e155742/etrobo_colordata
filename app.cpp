@@ -44,9 +44,9 @@ void main_task(intptr_t unused) {
     hsv_t hsv[3] = {0, 0, 0};
 
     // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Spec
-    const float redCorrection   = 255.0 / 329.0;
-    const float greenCorrection = 255.0 / 389.0;
-    const float blueCorrection  = 255.0 / 238.0;
+    const float redCorrection   = 255.0 / 377.0;
+    const float greenCorrection = 255.0 / 368.0;
+    const float blueCorrection  = 255.0 / 225.0;
     float red   = 0.0;
     float green = 0.0;
     float blue  = 0.0;
