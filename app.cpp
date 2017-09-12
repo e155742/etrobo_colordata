@@ -43,7 +43,7 @@ void main_task(intptr_t unused) {
     rgb_raw_t rgb;
     hsv_t hsv[3] = {0, 0, 0};
 
-    // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Spec
+    // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Color
     const float redCorrection   = 255.0 / 377.0;
     const float greenCorrection = 255.0 / 368.0;
     const float blueCorrection  = 255.0 / 225.0;
