@@ -2,8 +2,9 @@
 #include <ColorSensor.h>
 #include <Clock.h>
 #include "util.h"
-#include "ports_assignment.hpp"
+#include "robo_meta_datas.hpp"
 #include "hsv_converter.hpp"
+#include "color_judge.hpp"
 
 constexpr float RELOAD_TIME = 0.5; // 画面の更新間隔(秒)
 
@@ -36,12 +37,13 @@ void main_task(intptr_t unused) {
     msg_f("Color", coloeNameLine);
     //12行目に色判別
 
-    ev3api::ColorSensor colorSensor(COLOR_SENSOR_PORT);
+    ev3api::ColorSensor colorSensor(ie::COLOR_SENSOR_PORT);
     ev3api::Clock clock;
     clock.reset();
     HsvConverter hsvConverter;
     rgb_raw_t rgb;
     hsv_t hsv[3] = {0, 0, 0};
+    ie::ColorJudge colorJudge(hsvConverter);
 
     // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Color
     const float redCorrection   = 255.0 / 377.0;
@@ -77,8 +79,8 @@ void main_task(intptr_t unused) {
             msg_f(hsv[2], hsvLine + 3);
 
             // 色判定
-            msg_f(numbetToColor(colorSensor.getColorNumber()), coloeNameLine + 1);
-
+            msg_f(numbetToColor(colorJudge.getColorNumber(rgb.r, rgb.g, rgb.b)), coloeNameLine + 1);
+            // msg_f(numbetToColor(colorSensor.getColorNumber()), coloeNameLine + 2);
             doShowBrightness = false;
             clock.reset();
         }

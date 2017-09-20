@@ -4,7 +4,8 @@ APPL_COBJS +=
 
 APPL_CXXOBJS += \
 util.o \
-hsv_converter.o
+hsv_converter.o \
+color_judge.o
 
 SRCLANG := c++
 
