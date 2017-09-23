@@ -25,7 +25,7 @@ const char* numbetToColor(colorid_t colorNum) {
 
 void main_task(intptr_t unused) {
     int brightnessLine = 1;
-    msg_f("Brightness", brightnessLine);
+    msg_f("Total RGB", brightnessLine);
     // 2行目に反射光
     int rgbLine = brightnessLine + 2;
     msg_f("RGB", rgbLine);
@@ -45,28 +45,19 @@ void main_task(intptr_t unused) {
     hsv_t hsv[3] = {0, 0, 0};
     ie::ColorJudge colorJudge(hsvConverter);
 
-    // see https://redmine.ie.u-ryukyu.ac.jp/projects/etrobo2017-teamtwd/wiki/Color
-    const float redCorrection   = 255.0 / 377.0;
-    const float greenCorrection = 255.0 / 368.0;
-    const float blueCorrection  = 255.0 / 225.0;
     float red   = 0.0;
     float green = 0.0;
     float blue  = 0.0;
 
-    bool doShowBrightness = false;
     while(true){
-        if (1000 * RELOAD_TIME * 0.5 < clock.now() && !doShowBrightness) {
-            // 反射光を取得して表示
-            msg_f(colorSensor.getBrightness(), brightnessLine + 1);
-            doShowBrightness = true;
-        }
-
-        if (1000 * RELOAD_TIME < clock.now() && doShowBrightness) {
-            // RGBを取得して表示
+        if (1000 * RELOAD_TIME < clock.now()) {
             colorSensor.getRawColor(rgb);
-            red   = rgb.r * redCorrection   < 255.0 ? rgb.r * redCorrection   : 255.0;
-            green = rgb.g * greenCorrection < 255.0 ? rgb.g * greenCorrection : 255.0;
-            blue  = rgb.b * blueCorrection  < 255.0 ? rgb.b * blueCorrection  : 255.0;
+            msg_f(rgb.r + rgb.g + rgb.b, brightnessLine + 1);
+
+            // RGBを取得して表示
+            red   = rgb.r * ie::RED_COEFFICIENT   < 255.0 ? rgb.r * ie::RED_COEFFICIENT   : 255.0;
+            green = rgb.g * ie::GREEN_COEFFICIENT < 255.0 ? rgb.g * ie::GREEN_COEFFICIENT : 255.0;
+            blue  = rgb.b * ie::BLUE_COEFFICIENT  < 255.0 ? rgb.b * ie::BLUE_COEFFICIENT  : 255.0;
             msg_f(red, rgbLine + 1);
             msg_f(green, rgbLine + 2);
             msg_f(blue, rgbLine + 3);
@@ -81,7 +72,6 @@ void main_task(intptr_t unused) {
             // 色判定
             msg_f(numbetToColor(colorJudge.getColorNumber(rgb.r, rgb.g, rgb.b)), coloeNameLine + 1);
             // msg_f(numbetToColor(colorSensor.getColorNumber()), coloeNameLine + 2);
-            doShowBrightness = false;
             clock.reset();
         }
     }
